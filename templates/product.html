@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block reg %}
+
+    
+    {% if not edit %}
+            <div class="product_item_page">
+                <img class="photo" src="{{ url_for('static', filename='{}'.format(image)) }}" class="img-fluid">
+                <div class="product-list">
+                    {% if admin %}
+                        <a href="edit/{{id_card}}" class="button">Редактировать</a>
+                    {% endif %}
+                    <h3>Название: {{ name }}</h3>
+                    <p>Тип продукта: {{ type }}</p>
+                    <p>Производитель: {{ manufactor }}</p>    
+
+
+                    <span class="price_mark">
+                            <div id="price">Цена: ₽ {{ price }}</div>
+                            <div id="mark">Оценка: &#9733; {{ marks }} </div>
+                        </span>
+                        
+                        <a href="" class="button">В корзину</a>
+                </div>
+
+
+                <div>
+                    <p>Описание:
+                        {{description}}
+                    </p>
+
+                </div>
+
+                <div>
+                    {% if comments == [''] %}
+                        <h3>Комментариев пока нет</h3>
+                        <p>Станьте первым: </p>
+                                
+                    {% endif %}
+
+                    {% if not comments == [''] %}
+                        <div class="comment">
+                            
+                            {% for i in comments %}
+                                {% if not i == '' %}
+                                    <h3>Anonimus</h3>
+                                    <p class="com">{{ i }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <form method="post">
+                        <!--<input type="number" name="Data_mark">-->
+                        <select name="Data_mark">
+                            <option value="1">&#9733;</option>
+                            <option value="2">&#9733;&#9733;</option>
+                            <option value="3">&#9733;&#9733;&#9733;</option>
+                            <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+                            <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                        </select>
+                       
+                        <input type="text" name = "Data_comment">
+                        {% if role %}
+                            <input type="submit" class="button" value="Комментировать">
+                        {% endif %}
+                        {% if not role %}
+                            <a href = "/login" class="button">"Комментировать"</a>
+                        {% endif %}
+                    
+                    </form>
+                </div>
+            </div>
+    {% endif %}
+
+    {% if edit %}
+
+
+            <div class="product_item_page">
+                <img class="photo" src="{{ url_for('static', filename='{}'.format(image)) }}" class="img-fluid">
+                
+            <form method="post" enctype="multipart/form-data">
+                <div class="product-list"></div>   
+                        <h3><input type="text" name="Data_name" placeholder="name" value="{{ name }}"></h3>
+                        <p><input type="text" name="Data_type" placeholder="type" value="{{ type }}"></p>
+                        <p><input type="text" name="Data_manufactor" placeholder="manufactor" value="{{ manufactor }}"></p>
+                        
+                        
+                        
+                        <input type="file" name="Data_photo" placeholder="photo" value="">
+                        <input type="submit" value="Завершить">   
+
+
+                <span class="price_mark">
+                        <div id="price">Цена: ₽ 
+                            <input type="number" name="Data_price" placeholder="price" value="{{ price }}">
+                        </div>
+                        <div id="mark">Оценка: &#9733; {{ marks }} </div>
+                    </span>
+                    
+                    <a href="" class="button">В корзину</a>
+                </div>
+
+            
+                <div>
+                    <p>Описание:
+                        <input type="text" name="Data_description" placeholder="description" value="{{description}}">
+                        
+                    </p>
+
+                </div>
+            </form>
+                <div>
+                    {% if comments == [''] %}
+                        <h3>Комментариев пока нет</h3>
+                        <p>Станьте первым: </p>
+                                
+                    {% endif %}
+
+                    {% if not comments == [''] %}
+                        <div class="comment">
+                            
+                            {% for i in comments %}
+                                {% if not i == '' %}
+                                    <h3>Anonimus</h3>
+                                    <p class="com">{{ i }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <form method="post">
+                        <!--<input type="number" name="Data_mark">-->
+                        <select name="Data_mark">
+                            <option value="1">&#9733;</option>
+                            <option value="2">&#9733;&#9733;</option>
+                            <option value="3">&#9733;&#9733;&#9733;</option>
+                            <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+                            <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                        </select>
+                       
+                        <input type="text" name = "Data_comment">
+                        {% if role %}
+                            <input type="submit" class="button" value="Комментировать">
+                        {% endif %}
+                        {% if not role %}
+                            <a href = "/login" class="button">"Комментировать"</a>
+                        {% endif %}
+                    
+                    </form>
+                </div>
+            </div>
+    {% endif %}
+
+
+
+    
+
+{% endblock %}

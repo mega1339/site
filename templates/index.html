@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block reg %}
+
+    {% if role %}
+    <!--
+        <form method="post">
+            <div class="filters">
+                <h3>Тип продукта</h3>
+                    <select name="Data_type">
+                        <option value="">Не выбрано</option>
+                        <option value="resistor">Резисторы</option>
+                        <option value="capacitor">Конденсаторы</option>
+                        <option value="transistor">Транзисторы</option>
+                    </select>
+                <h3>Производитель</h3>
+                    <select name="Data_manufactor">
+                        <option value="">Не выбрано</option>
+                        <option value="СССР">СССР</option>
+                        <option value="Китай">Китай</option>
+                        <option value="Корея">Корея</option>
+                    </select>
+                <h3>Сортировка</h3>
+                    <select name="Data_order">
+                        <option value="">Не выбрано</option>
+                        <option value="price">Цена</option>
+                        <option value="price">Цена</option>
+                        <option value="marks">Оценка</option>
+                    </select>
+                
+                <input type="submit" value="Сортировать">
+            </div>
+        </form>
+    -->
+
+
+        {% for i in range(cards) %}
+            <div class="product-item">
+                <img src="{{ url_for('static', filename='{}'.format(image[i])) }}" class="img-fluid">
+                <div class="product-list">
+                <h3>{{ name[i] }}</h3>
+                    
+                    <span class="price_mark">
+                        <div id="price">₽ {{ price[i] }}</div>
+                        <div id="mark">&#9733; {{ marks[i] }} </div>
+                    </span>
+                    <a href="" class="button">В корзину</a>
+                    <a href="product/{{i + 1}}" class="button">Подробнее</a>
+                    
+                </div>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+    {% if not role %}
+        {% for i in range(cards) %}
+            <div class="product-item">
+                <img src="{{ url_for('static', filename='{}'.format(image[i])) }}" class="img-fluid">
+                <div class="product-list">
+                <h3>{{ name[i] }}</h3>
+                    
+                    <span class="price_mark">
+                        <div id="price">₽ {{ price[i] }}</div>
+                        <div id="mark">&#9733; {{ marks[i] }} </div>
+                    </span>
+                    <a href="" class="button">В корзину</a>
+                    <a href="product/{{i + 1}}" class="button">Подробнее</a>
+                    
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+   
+
+{% endblock %}

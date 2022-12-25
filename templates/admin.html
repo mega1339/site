@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block reg %}
+
+<h1>admin</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="text" name="Data_type" placeholder="type">
+    <input type="text" name="Data_name" placeholder="name">
+    <input type="text" name="Data_description" placeholder="description">
+    <input type="text" name="Data_manufactor" placeholder="manufactor">
+    <input type="number" name="Data_price" placeholder="price">
+    <input type="file" name="Data_photo" placeholder="photo">
+    <input type="submit" value="Submit">
+</form>
+
+
+{% endblock %}

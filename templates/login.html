@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block reg %}
+
+    <form method="post">
+        <input type="text" name="Data_login" placeholder="Login">
+        <input type="text" name="Data_pass" placeholder="Password">
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>{{ cypher }}</h2>
+
+{% endblock %}
