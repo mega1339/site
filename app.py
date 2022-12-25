@@ -2,109 +2,114 @@ from functools import wraps
 from db_setup import db
 from tables import *
 from app_setup import app
-import re
 
 from flask import render_template, request, session, flash, redirect, url_for
 
-image_path = "D:\учеба\Сайт\FlaskDemo\site\pr2\static"
+image_path = "C:/Users/Михаил/newsait/site/static"
 
 app.secret_key = 'key'
 get_arr = '', '', '', ''
 
+logg = ''
 role = False
 admin = False
 
-#@login_required
+
 @app.route('/table', methods=['GET', 'POST'])
 def recieve():
-    #q = db.engine.execute('SELECT photo FROM card WHERE id = 4;')
-    #print(q)
-
-    #img = Image.open(io.BytesIO(b'\x80\x04\x95\t\x00\x00\x00\x00\x00\x00\x00\x8c\x051.jpg\x94.'))
-    #img = Image.frombytes("RGBA", (200, 200), q)
-
-    #res = db.engine.execute('SELECT * FROM card;')
-    #print(*res, sep="\n")
-
-    if request.method == "POST":
-        command = request.form.get("Data")
- 
-         
-        if ('SELECT' in command):
-            show = db.engine.execute('{}'.format(command))
+    global admin
+    if admin:
+        if request.method == "POST":
+            command = request.form.get("Data")
+    
+            
+            if ('SELECT' in command):
+                show = db.engine.execute('{}'.format(command))
+            else:
+                db.engine.execute('{}'.format(command))
+                show = ['Nothing']
+    
+            res = db.engine.execute('SELECT * FROM card;')
         else:
-            db.engine.execute('{}'.format(command))
-            show = ['Nothing']
- 
-        res = db.engine.execute('SELECT * FROM card;')
+            res = db.engine.execute('SELECT * FROM card;')
+            show = ['Nothing']  
     else:
-        res = db.engine.execute('SELECT * FROM card;')
-        show = ['Nothing']  
-
+        return redirect(url_for('home'))
     return render_template("table.html",
                             cypher = res,
                             your = show,
                             image = '{}'.format('1.jpg'))
 
-def check(mail, login, passw, pass_c):
-    if not '@' in mail:
-        print('not mail')
-        return False
+def check(mail, login, password, pass_def):
 
-    if re.search(r'[^a-zA-Z]', login[0]):
-        print('first need a-Z')
-        return False
-        
-    for i in range(len(login)):
-        if re.search(r'[^a-zA-Z0-9_]', login[i]):
-            print('not {} in login'.format(login[i]))
-            return False
+   r = "%$#@&*^|\/~[]{}"
+   d = "QWERTYUIOPASDFGHJKLZXCVBNM"
+   p = "qwertyuiopasdfghjklzxcvbnm"
+   l = "_"
+   f = "1234567890"
 
-    if len(login) < 6:
-        print('login so short')
-        return False
+   flag1 = 0
+   flag2 = 0
+   flag3 = 0
+   flag4 = 0
 
-    for i in range(len(passw)):
-        if not re.search(r'[^a-z]', passw[i]):    
-            break
-        else:
-            if i == len(passw) - 1:
-                print('not a-z in login')
-                return False
 
-    for i in range(len(passw)):
-        if not re.search(r'[^A-Z]', passw[i]):
-            break
-        else:
-            if i == len(passw) - 1:    
-                print('not A-Z in login')
-                return False
+   if len(password) < 8:
+       print("not password1")
+       return False
 
-    for i in range(len(passw)):
-        if not re.search(r'[^0-9]', passw[i]):
-            break
-        else:    
-            if i == len(passw) - 1:    
-                print('not 0-9 in login')
-                return False
+   for i in password:
+       if i not in d:
+           flag1 += 1
+       if flag1 == len(password):
+           print("not password2")
+           return False
 
-    for i in range(len(passw)):
-        if not re.search(r'[^%$#@&*^{}|/~\]\[\\]', passw[i]):
-            break
-        else:   
-            if i == len(passw) - 1: 
-                print('not %$#@&*^|/\~[]}{ in login')
-                return False
+   for i in password:
+       if i not in p:
+           flag2 += 1
+       if flag2 == len(password):
+           print("not password3")
+           return False
 
-    if len(passw) < 8:
-        print('password so short')
-        return False
+   for i in password:
+       if i not in f:
+           flag3 += 1
+       if flag3 == len(password):
+           print("not password4")
+           return False
 
-    if passw != pass_c:
-        print('passwords no match')
-        return False
-    
-    return True
+   for i in password:
+       if i not in r:
+           flag4 += 1
+       if flag4 == len(password):
+           print("not password5")
+           return False
+
+
+   if not '@' in mail:
+       print('not mail')
+       return False
+
+
+   if len(login) < 6:
+       print('not login')
+       return False
+   if (login[0] not in p) and (login[0]not in d):
+       print('not login2')
+       return False
+   for i in (login):
+       if (i not in l) and (i not in f) and (i not in p) and (i not in d):
+           print('not login3')
+           return False
+
+
+       if pass_def != password:
+           print("not password_def")
+           return False
+
+   return True
+
 
 def login_required(test):
     @wraps(test)
@@ -235,13 +240,14 @@ def create_user():
 @app.route('/login', methods=['GET','POST'])
 def login():
     
+    global logg
     res = ''
     if request.method == "POST":
 
         login     = request.form.get("Data_login")
         password  = request.form.get("Data_pass")
 
-        if login == 'adminadmin'and password == 'Admin1///':
+        if login == 'admin228pro'and password == 'Admin1228777$':
             global admin, role
             admin = True 
             role = True
@@ -255,11 +261,13 @@ def login():
 
             if user_test_login == None or user_test_password == None:
                 res = 'no such dire... user'
+            
 
             else: 
                 role = True
                 session['logged_in'] = True
-                return redirect(url_for('home'))
+            logg = user_test_login.login
+        return redirect(url_for('home'))
 
     return render_template('login.html', role = role, cypher = res )
 
@@ -277,7 +285,7 @@ def logout():
 
 @app.route('/product/<id_card>', methods=['GET','POST'])
 def product(id_card):
-    global role
+    global role,logg
 
     img = Card.query.filter_by(id = id_card).first()
 
@@ -328,7 +336,8 @@ def product(id_card):
                            comments = comments,
                            description = description, 
                            marks = marks,
-                           id_card = id_card)
+                           id_card = id_card,
+                           logg=logg)
 
 
 
@@ -415,4 +424,4 @@ def product_edit(id_card):
 
 if __name__ == '__main__':
 
-    app.run(debug = True)
+    app.run(host = '0.0.0.0',debug = True)

@@ -20,11 +20,11 @@
                             <div id="mark">Оценка: &#9733; {{ marks }} </div>
                         </span>
                         
-                        <a href="" class="button">В корзину</a>
+                        
                 </div>
 
 
-                <div>
+                <div class="techik">
                     <p>Описание:
                         {{description}}
                     </p>
@@ -43,7 +43,7 @@
                             
                             {% for i in comments %}
                                 {% if not i == '' %}
-                                    <h3>Anonimus</h3>
+                                    <h3>{{ logg }}</h3>
                                     <p class="com">{{ i }}</p>
                                 {% endif %}
                             {% endfor %}
